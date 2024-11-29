@@ -1,0 +1,7 @@
+{
+  "name": "JuJu Trailers",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
