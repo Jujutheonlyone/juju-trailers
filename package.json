@@ -9,9 +9,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint",
-    "update:aws:dev": "aws cloudformation update-stack \\\n  --stack-name dev-stack \\\n  --template-body file:///home/cloudshell-user/dev-prod-stack.yaml \\\n  --parameters ParameterKey=EnvironmentName,ParameterValue=dev \\\n               ParameterKey=CognitoUserPoolId,ParameterValue=eu-central-1_chIiFpBCG \\\n               ParameterKey=CognitoAppClientId,ParameterValue=dsa0rr9qtpghj7gqemvuqnb0q \\\n  --capabilities CAPABILITY_NAMED_IAM\n",
-    "update:aws:prod": "aws cloudformation update-stack \\\n  --stack-name prod-stack \\\n  --template-body file:///home/cloudshell-user/dev-prod-stack.yaml \\\n  --parameters ParameterKey=EnvironmentName,ParameterValue=prod \\\n               ParameterKey=CognitoUserPoolId,ParameterValue=eu-central-1_S40kbheN5 \\\n               ParameterKey=CognitoAppClientId,ParameterValue=64ee6pacitqgt2nmp8b6utdhuj \\\n  --capabilities CAPABILITY_NAMED_IAM\n"
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
@@ -29,15 +27,15 @@
     "@capacitor/keyboard": "6.0.3",
     "@capacitor/status-bar": "6.0.2",
     "@ionic/angular": "^8.0.0",
-    "amazon-cognito-identity-js": "^6.3.12",
     "aws-amplify-angular": "^6.0.60",
-    "install": "^0.13.0",
     "ionicons": "^7.0.0",
-    "npm": "^10.9.1",
     "rxjs": "~7.8.0",
     "swiper": "^11.1.15",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"
+  },
+  "engines": {
+    "node": "20"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.0.0",
@@ -54,8 +52,6 @@
     "@types/jasmine": "~5.1.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
-    "constructs": "^10.4.2",
-    "esbuild": "^0.24.0",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsdoc": "^48.2.1",
@@ -67,8 +63,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "tsx": "^4.19.2",
-    "typescript": "5.5.4"
+    "typescript": "~5.4.0"
   },
   "description": "An Ionic project"
 }
