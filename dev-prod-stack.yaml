@@ -1,0 +1,110 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "AWS resources for dev and prod environments with Cognito integration"
+
+Parameters:
+  EnvironmentName:
+    Type: String
+    AllowedValues:
+      - dev
+      - prod
+    Description: "Specify the environment: dev or prod"
+
+  CognitoUserPoolId:
+    Type: String
+    Description: "The ID of the existing Cognito User Pool"
+
+  CognitoAppClientId:
+    Type: String
+    Description: "The ID of the existing Cognito App Client"
+
+Resources:
+  # IAM Roles
+  FullAccessRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${EnvironmentName}-FullAccessRole"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: [ "ec2.amazonaws.com", "lambda.amazonaws.com" ]
+            Action: "sts:AssumeRole"
+      Policies:
+        - PolicyName: !Sub "${EnvironmentName}-FullAccessPolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "*"
+                Resource: !Sub "arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:${EnvironmentName}/*"
+              - Effect: Allow
+                Action: "*"
+                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${EnvironmentName}*"
+              - Effect: Allow
+                Action:
+                  - "cognito-idp:AdminGetUser"
+                  - "cognito-idp:AdminCreateUser"
+                  - "cognito-idp:AdminDeleteUser"
+                Resource: !Sub "arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${CognitoUserPoolId}"
+
+  # Secrets Manager
+  SecretsManagerSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: !Sub "${EnvironmentName}-ApplicationSecret"
+      Description: !Sub "Secret for ${EnvironmentName} environment"
+      Tags:
+        - Key: Environment
+          Value: !Ref EnvironmentName
+
+  # DynamoDB
+  DynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "${EnvironmentName}-DataTable"
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      Tags:
+        - Key: Environment
+          Value: !Ref EnvironmentName
+
+  # IAM Groups
+  FullAccessGroup:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: !Sub "${EnvironmentName}-FullAccessGroup"
+      Policies:
+        - PolicyName: !Sub "${EnvironmentName}-FullAccessPolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "*"
+                Resource: "*"
+
+Outputs:
+  FullAccessRoleArn:
+    Description: "ARN of the Full Access Role"
+    Value: !GetAtt FullAccessRole.Arn
+
+  SecretsManagerSecretArn:
+    Description: "ARN of the Secrets Manager Secret"
+    Value: !Ref SecretsManagerSecret
+
+  DynamoDBTableName:
+    Description: "Name of the DynamoDB Table"
+    Value: !Ref DynamoDBTable
+
+  CognitoUserPoolIdOutput:
+    Description: "The Cognito User Pool ID"
+    Value: !Ref CognitoUserPoolId
+
+  CognitoAppClientIdOutput:
+    Description: "The Cognito App Client ID"
+    Value: !Ref CognitoAppClientId
