@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Auth } from 'aws-amplify';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {confirmSignUp, signIn, signOut, signUp} from 'aws-amplify/auth'
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +14,13 @@ export class AuthService {
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public async signUp(username: string, password: string) {
+  public async handleSignUp(username: string, password: string) {
     try {
-      const { user } = await Auth.signUp({
+      const signUpOutput = await signUp({
         username,
         password
       });
+      signUpOutput.userId
       this.currentUserSubject.next(user);
       console.log(user);
     } catch (error) {
@@ -27,18 +28,18 @@ export class AuthService {
     }
   }
 
-  public async confirmSignUp(username: string, confirmationCode: string) {
+  public async handleConfirmSignUp(username: string, confirmationCode: string) {
     try {
-      await Auth.confirmSignUp(username, confirmationCode);
+      await confirmSignUp({username, confirmationCode});
       console.log('User confirmed');
     } catch (error) {
       console.log('error confirming sign up', error);
     }
   }
 
-  public async signIn(username: string, password: string) {
+  public async handleSignIn(username: string, password: string) {
     try {
-      const user = await Auth.signIn(username, password);
+      const user = await signIn({username, password});
       this.currentUserSubject.next(user);
       console.log(user);
     } catch (error) {
@@ -46,13 +47,13 @@ export class AuthService {
     }
   }
 
-  public signInWithAmazon(): void {
-    Auth.federatedSignIn({ provider: 'Amazon' });
+  public handleSignInWithAmazon(): void {
+    federatedSignIn({ provider: 'Amazon' });
   }
 
-  public async signOut() {
+  public async handleSignOut() {
     try {
-      await Auth.signOut();
+      await signOut();
       this.currentUserSubject.next(null);
       console.log('User signed out');
     } catch (error) {

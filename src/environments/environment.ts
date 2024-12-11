@@ -1,10 +1,11 @@
-export const environment = {
+import {IEnvironment} from "../app/model/environment.model";
+
+export const environment: IEnvironment = {
   production: false,
   awsConfig: {
-    aws_project_region: 'YOUR_REGION',
-    aws_cognito_identity_pool_id: 'YOUR_IDENTITY_POOL_ID',
-    aws_cognito_region: 'YOUR_REGION',
-    aws_user_pools_id: 'YOUR_USER_POOLS_ID',
-    aws_user_pools_web_client_id: 'YOUR_WEB_CLIENT_ID',
+    awsRegion: 'eu-central-1',
+    userPoolId: 'eu-central-1_chIiFpBCG',
+    userPoolClientId: 'dsa0rr9qtpghj7gqemvuqnb0q',
+    identityPoolId: 'eu-central-1:0b1b1b1b-0b1b-0b1b-0b1b-0b1b1b1b1b1b',
   }
 };

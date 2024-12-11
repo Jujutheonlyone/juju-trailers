@@ -1,0 +1,27 @@
+version: 1
+backend:
+  phases:
+    build:
+      commands:
+        - amplifyPush --simple
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm install
+    build:
+      commands:
+        - npm run build
+    postBuild:
+      commands:
+       # - npm run deploy:ios # z.B. Fastlane-Befehl für iOS
+       # - npm run deploy:android # z.B. Fastlane-Befehl für Android
+artifacts:
+  baseDirectory: www
+  files:
+    - '**/*'
+cache:
+  paths:
+    - node_modules/**/*
+
+
