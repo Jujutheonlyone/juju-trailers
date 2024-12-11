@@ -1,9 +1,7 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {image} from "ionicons/icons";
-import {Vehicle} from "../../model/vehicle.model";
 import {VehicleService} from "../../service/vehicle.service";
 import {SwiperOptions} from "swiper/types";
-import {SwiperContainer} from "swiper/element";
 
 export interface Card {
   title: string;
@@ -44,8 +42,6 @@ export class TrailerArchivePage implements OnInit {
   ];
 
 
-  public vehicles: Vehicle[] = [];
-
   public index = 0;
 
   public swiperConfig: SwiperOptions = {
@@ -85,14 +81,6 @@ export class TrailerArchivePage implements OnInit {
   }
 
   private loadVehicles(): void {
-  }
-
-  public reserve(vehicle: Vehicle): void {
-    console.log('Reservieren:', vehicle);
-  }
-
-  public viewDetails(vehicle: Vehicle): void {
-    console.log('Details:', vehicle);
   }
 
   protected readonly image = image;
