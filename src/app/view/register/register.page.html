@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="registerForm" (ngSubmit)="handleRegisterUser()">
+    <ion-item>
+      <ion-label position="stacked">Email</ion-label>
+      <ion-input
+        type="email"
+        formControlName="email"
+        [class.invalid]="registerForm.controls['email'].invalid && !registerForm.controls['email'].untouched"
+        required
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="registerForm.controls['email'].invalid && !registerForm.controls['email'].untouched"
+      >
+        Bitte eine gültige E-Mail-Adresse eingeben.
+      </ion-text>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-label position="stacked">Password</ion-label>
+      <ion-input
+        type="password"
+        formControlName="password"
+        [class.invalid]="registerForm.controls['password'].invalid && !registerForm.controls['password'].untouched"
+        required
+      ></ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="registerForm.controls['password'].invalid && !registerForm.controls['password'].untouched"
+      >
+        Das Passwort muss mindestens 6 Zeichen lang sein.
+      </ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Passwort wiederholen</ion-label>
+      <ion-input
+        type="password"
+        formControlName="passwordRepeat"
+        [class.invalid]="registerForm.controls['passwordRepeat'].invalid && !registerForm.controls['passwordRepeat'].untouched"
+        required>
+      </ion-input>
+      <ion-text
+        color="danger"
+        *ngIf="registerForm.controls['passwordRepeat'].invalid && !registerForm.controls['passwordRepeat'].untouched"
+      >
+        {{ registerForm.controls['passwordRepeat'] |json }}
+      </ion-text>
+    </ion-item>
+    <ion-checkbox formControlName="hasTermsChecked">Ich stimme den AGBs und Datenschutzbestimmungen zu</ion-checkbox>
+
+    <ion-button expand="full" type="submit" [disabled]="registerForm.invalid">
+      Login
+    </ion-button>
+  </form>
+</ion-content>

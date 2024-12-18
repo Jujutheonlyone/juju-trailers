@@ -5,7 +5,13 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="loginForm" (ngSubmit)="login()">
+  <ng-container *ngIf="authService.$currentUser | async as user else notLoggedIn">
+    {{user|json}}
+  </ng-container>
+  <ng-template #notLoggedIn>
+    <p>Not logged in</p>
+  </ng-template>
+  <form [formGroup]="loginForm" (ngSubmit)="signIn()">
     <ion-item>
       <ion-label position="stacked">Email</ion-label>
       <ion-input
@@ -15,7 +21,10 @@
         required
       ></ion-input>
     </ion-item>
-    <ion-text color="danger" *ngIf="isInvalid('email')">
+    <ion-text
+      color="danger"
+      *ngIf="
+        loginForm.controls['email'].invalid && !loginForm.controls['email'].untouched">
       Bitte eine gültige E-Mail-Adresse eingeben.
     </ion-text>
 

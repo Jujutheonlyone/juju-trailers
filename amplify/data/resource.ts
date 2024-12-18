@@ -1,17 +1,17 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { SelectionSet } from 'aws-amplify/data';
 
 const schema = a.schema({
   Address: a.model({
     addressId: a.id(),
-    street: a.string().required(),
-    city: a.string().required(),
-    state: a.string().required(),
-    zip: a.string().required(),
+    street: a.string(),
+    city: a.string(),
+    state: a.string(),
+    zip: a.string(),
     createdAt: a.datetime(),
     updatedAt: a.datetime(),
     user: a.belongsTo('User', 'uid'),
     uid: a.id(),
-
   })
     .identifier(['addressId'])
     .authorization((allow) => [allow.owner()]),
@@ -21,23 +21,23 @@ const schema = a.schema({
     customerType: a.enum(['individual', 'business']),
     phone: a.string().required(),
     username: a.string().required(),
+    userType: a.enum(['USER', 'ADMIN']),
     email: a.email().required(),
     vehicles: a.hasMany('Vehicle', 'uid'),
     bookings: a.hasMany('Booking', 'uid'),
     address: a.hasOne('Address', 'uid'),
   })
-    .identifier(['uid'])
-    .authorization((allow) => [allow.owner()]),
+    .identifier(['uid']),
 
   Booking: a.model({
     bookingId: a.id(),
+    vehicleId: a.id(),
+    uid: a.id(),
     user: a.belongsTo('User', 'uid'),
     vehicle: a.belongsTo('Vehicle', 'vehicleId'),
     startDate: a.datetime().required(),
-    vehicleId: a.id(),
-    createdAt: a.datetime(),
-    updatedAt: a.datetime(),
-    uid: a.id(),
+    createdAt: a.datetime().default(new Date().toISOString()),
+    updatedAt: a.datetime().default(new Date().toISOString()),
   })
     .identifier(['bookingId'])
     .authorization((allow) => [allow.owner(), allow.group('Admin')]),
@@ -58,15 +58,14 @@ const schema = a.schema({
     }),
     emptyWeight: a.float().required(),
     grossWeight: a.float().required(),
-    createdAt: a.datetime(),
-    updatedAt: a.datetime(),
+    createdAt: a.datetime().default(new Date().toISOString()),
+    updatedAt: a.datetime().default(new Date().toISOString()),
     vehicleType: a.enum(['suv', 'trailer']),
     media: a.hasMany('VehicleMedia', 'vehicleId'),
     user: a.belongsTo('User', 'uid'),
     uid: a.id(),
   })
-    .identifier(['vehicleId'])
-    .authorization((allow) => [allow.owner(), allow.group('Admin')]),
+    .identifier(['vehicleId']),
 
   VehicleMedia: a.model({
     mediaId: a.id(),
@@ -74,6 +73,8 @@ const schema = a.schema({
     mediaType: a.enum(['video', 'image']),
     alt: a.string(),
     vehicle: a.belongsTo('Vehicle', 'vehicleId'),
+    createdAt: a.datetime().default(new Date().toISOString()),
+    updatedAt: a.datetime().default(new Date().toISOString()),
     vehicleId: a.id(),
   })
     .identifier(['mediaId'])
@@ -81,6 +82,8 @@ const schema = a.schema({
 });
 
 export type Schema = ClientSchema<typeof schema>;
+const selectionSet = ['vehicles.*', 'bookings.*', 'address.*'] as const;
+export type User = SelectionSet<Schema['User']['type'], typeof selectionSet>;
 
 export const data = defineData({
   schema,

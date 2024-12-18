@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^18.0.0",
     "@angular/platform-browser-dynamic": "^18.0.0",
     "@angular/router": "^18.0.0",
+    "@aws-amplify/ui-angular": "^5.0.34",
     "@capacitor/app": "6.0.2",
     "@capacitor/core": "6.2.0",
     "@capacitor/haptics": "6.0.2",
@@ -73,5 +74,6 @@
     "tsx": "^4.19.2",
     "typescript": "^5.5.4"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastController } from '@ionic/angular';
+import {Component} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from "../../service/auth.service";
+import {ToastService} from "../../service/toast.service";
+import {ERROR_MESSAGE} from "../../const/error-messages";
+import {SUCCESS_MESSAGE} from "../../const/success-messages";
 
 
 @Component({
@@ -9,28 +11,26 @@ import {AuthService} from "../../service/auth.service";
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
-  loginForm!: FormGroup;
+export class LoginPage {
+  public loginForm: FormGroup = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+  });
 
   constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private toastCtrl: ToastController
+    public authService: AuthService,
+    private toastService: ToastService,
   ) {}
 
-  public ngOnInit(): void {
-    this.initializeForm();
-  }
-
-  private initializeForm() {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-    });
-  }
-
-  public async login() {
-
+  public async signIn() {
+    const { email, password } = this.loginForm.value;
+    try {
+      await this.authService.signIn(email, password);
+      await this.toastService.showToast({ message: ERROR_MESSAGE.default, severity: 'error' });
+    } catch (e) {
+      console.error('Error LoginPage.signIn', e);
+      await this.toastService.showToast({ message: SUCCESS_MESSAGE.signInSuccessful, severity: 'success' });
+    }
   }
 
   public async loginWithAmazon() {
@@ -40,13 +40,5 @@ export class LoginPage implements OnInit {
   public isInvalid(controlName: string): boolean {
     const control = this.loginForm.get(controlName);
     return !!(control?.invalid && (control?.dirty || control?.touched));
-  }
-
-  private async showToast(message: string) {
-    const toast = await this.toastCtrl.create({
-      message,
-      duration: 3000,
-    });
-    await toast.present();
   }
 }
