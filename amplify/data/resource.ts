@@ -15,6 +15,7 @@ const schema = a.schema({
   })
     .identifier(['addressId'])
     .authorization((allow) => [allow.guest()]),
+
   User: a.model({
     uid: a.id(),
     customerType: a.enum(['individual', 'business']),
