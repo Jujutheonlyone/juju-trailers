@@ -14,8 +14,7 @@ const schema = a.schema({
     uid: a.id(),
   })
     .identifier(['addressId'])
-    .authorization((allow) => [allow.owner()]),
-
+    .authorization((allow) => [allow.guest()]),
   User: a.model({
     uid: a.id(),
     customerType: a.enum(['individual', 'business']),
@@ -27,7 +26,8 @@ const schema = a.schema({
     bookings: a.hasMany('Booking', 'uid'),
     address: a.hasOne('Address', 'uid'),
   })
-    .identifier(['uid']),
+    .identifier(['uid'])
+    .authorization((allow) => [allow.guest()]),
 
   Booking: a.model({
     bookingId: a.id(),
@@ -40,7 +40,7 @@ const schema = a.schema({
     updatedAt: a.datetime().default(new Date().toISOString()),
   })
     .identifier(['bookingId'])
-    .authorization((allow) => [allow.owner(), allow.group('Admin')]),
+    .authorization((allow) => [allow.guest()]),
 
   Vehicle: a.model({
     vehicleId: a.id(),
@@ -65,7 +65,8 @@ const schema = a.schema({
     user: a.belongsTo('User', 'uid'),
     uid: a.id(),
   })
-    .identifier(['vehicleId']),
+    .identifier(['vehicleId'])
+    .authorization((allow) => [allow.guest()]),
 
   VehicleMedia: a.model({
     mediaId: a.id(),
@@ -78,7 +79,7 @@ const schema = a.schema({
     vehicleId: a.id(),
   })
     .identifier(['mediaId'])
-    .authorization((allow) => [allow.owner()]),
+    .authorization((allow) => [allow.guest()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
