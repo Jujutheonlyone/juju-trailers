@@ -4,9 +4,9 @@ export const environment: IEnvironment= {
   production: false,
   awsConfig: {
     awsRegion: 'eu-central-1',
-    userPoolId: 'eu-central-1_S40kbheN5',
-    userPoolClientId: '64ee6pacitqgt2nmp8b6utdhuj',
-    identityPoolId: 'eu-central-1:15d9a56b-f3ca-465a-b151-2295d7a98eab',
+    userPoolId: 'eu-central-1_XHUuuOkM5',
+    userPoolClientId: '210dtkbvrfukc9q574uofaluto',
+    identityPoolId: 'eu-central-1:33244c27-ee6c-4b73-bac5-9370e49e5016',
   },
   toast: {
     duration: 1500,
