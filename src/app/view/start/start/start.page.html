@@ -17,7 +17,14 @@
   >
     <swiper-slide *ngFor="let vehicle of vehicleList">
         <ion-card>
-          <ion-card-header>{{vehicle.title}}</ion-card-header>
+          <ion-card-header>
+            <ion-title>
+              {{vehicle.name}}
+            </ion-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p>{{vehicle.description}}</p>
+          </ion-card-content>
         </ion-card>
     </swiper-slide>
   </swiper-container>

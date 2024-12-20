@@ -1,32 +1,34 @@
 import {Injectable} from '@angular/core';
 import {Schema} from "../../../../amplify/data/resource";
-import {dbClient} from "../../../main";
+import {DbService} from "./db.service";
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class VehicleSvc {
+  constructor(private dbService: DbService) {}
 
   public async addVehicles(): Promise<any> {
     try{
-      const res = await dbClient.models.Vehicle.create(  {
-        vehicleId: '2',
-        plate: 'DEF456',
-        name: 'CargoMate XL',
-        brand: 'CargoMaster',
-        description: 'Heavy-duty trailer ideal for long hauls.',
+      const res = await this.dbService.dbClient.models.Vehicle.create(  {
+        vehicleId: '3',
+        plate: 'GHI789',
+        name: 'Camper Deluxe',
+        brand: 'TrailHaven',
+        description: 'Luxurious camper trailer for family trips.',
         active: true,
-        status: 'rented',
-        lockStatus: 'unlocked',
+        status: 'blocked',
+        lockStatus: 'error',
         location: {
-          lat: 40.7128,
-          long: -74.0060,
+          lat: 34.0522,
+          long: -118.2437,
         },
-        emptyWeight: 1000,
-        grossWeight: 2000,
+        emptyWeight: 1200,
+        grossWeight: 2500,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        vehicleType: 'trailer',
       });
       console.log(res);
       return res.data;
@@ -38,8 +40,7 @@ export class VehicleSvc {
 
   public async getVehicleList(): Promise<Schema['Vehicle']['type'][]> {
     try {
-      const res = await dbClient.models.Vehicle.list();
-      console.log(res);
+      const res = await this.dbService.dbClient.models.Vehicle.list({limit: 10});
       return res.data;
     } catch (e) {
       console.error('Error on VehicleService.getVehicleList', e);
@@ -49,7 +50,7 @@ export class VehicleSvc {
 
   public async getVehicleById(vehicleId: string): Promise<void> {
     try {
-      const res = await dbClient.models.Vehicle.get({vehicleId});
+      const res = await this.dbService.dbClient.models.Vehicle.get({vehicleId});
       console.log(res)
     } catch (e) {
       console.error('Error on VehicleService.getVehicleById', e);
@@ -59,7 +60,7 @@ export class VehicleSvc {
 
   public async updateVehicle(vehicle: any): Promise<any> {
     try {
-      const res = await dbClient.models.Vehicle.update(vehicle);
+      const res = await this.dbService.dbClient.models.Vehicle.update(vehicle);
       return res.data;
     } catch (e) {
       console.error('Error on VehicleService.updateVehicle', e);
@@ -69,7 +70,7 @@ export class VehicleSvc {
 
   public async deleteVehicle(vehicleId: string): Promise<any> {
     try{
-      const res = await dbClient.models.Vehicle.delete({vehicleId});
+      const res = await this.dbService.dbClient.models.Vehicle.delete({vehicleId});
       return res.data;
     } catch (e) {
       console.error('Error on VehicleService.deleteVehicle', e);

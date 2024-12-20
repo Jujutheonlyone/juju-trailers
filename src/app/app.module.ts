@@ -4,6 +4,7 @@ import {RouteReuseStrategy} from '@angular/router';
 import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
+import {DbService} from "./core/service/db.service";
 
 
 @NgModule({
@@ -13,7 +14,10 @@ import {AppComponent} from './app.component';
     IonicModule.forRoot(),
     AppRoutingModule,
   ],
-  providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}],
+  providers: [
+    DbService,
+    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

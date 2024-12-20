@@ -4,6 +4,7 @@ import {AuthService} from "../../../core/service/auth.service";
 import {Router} from "@angular/router";
 import Swiper from "swiper";
 import {TRAILER_LIST_MOCK} from "../../../core/const/mock/trailer-list.mock";
+import {Schema} from "../../../../../amplify/data/resource";
 
 @Component({
   selector: 'app-start',
@@ -14,9 +15,8 @@ export class StartPage {
   @ViewChild('swiper')
   public swiperRef: ElementRef | undefined;
   private swiper?: Swiper;
-  public vehicleList: any[] = TRAILER_LIST_MOCK;
-  public selectedVehicle: any = this.vehicleList[0];
-
+  public vehicleList: Schema["Vehicle"]["type"][] = [];
+  public selectedVehicle: Schema["Vehicle"]["type"] | null = null;
 
   public swiperReady() {
     this.swiper = this.swiperRef?.nativeElement.swiper;
@@ -24,7 +24,7 @@ export class StartPage {
 
   public swiperSlideChanged(e: any) {
     const index = e.target.swiper.activeIndex
-    this.selectedVehicle = this.selectedVehicle[index]
+    this.selectedVehicle = this.vehicleList[index]
   }
 
   public _segmentSelected(index: number) {
@@ -37,7 +37,6 @@ export class StartPage {
     public router: Router,
   ) {
     this.vehicleSvc.getVehicleList().then((vehicleList) => {
-      console.log(vehicleList);
       this.vehicleList = vehicleList;
     })
     this.authSvc.$currentUser.subscribe((user) => {

@@ -26,6 +26,7 @@ const schema = a.schema({
     vehicles: a.hasMany('Vehicle', 'uid'),
     bookings: a.hasMany('Booking', 'uid'),
     address: a.hasOne('Address', 'uid'),
+    nextStep: a.string(),
   })
     .identifier(['uid'])
     .authorization((allow) => [allow.owner()]),
@@ -90,6 +91,6 @@ export type User = SelectionSet<Schema['User']['type'], typeof selectionSet>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'iam',
+    defaultAuthorizationMode: 'userPool',
   },
 });

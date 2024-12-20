@@ -9,7 +9,7 @@ import {ROUTES} from "../const/routes";
 import {Hub} from 'aws-amplify/utils';
 import {AuthNextSignInStep} from '@aws-amplify/auth/dist/esm/types/models';
 import {Schema} from "../../../../amplify/data/resource";
-import {dbClient} from "../../../main";
+import {DbService} from "./db.service";
 
 @Injectable({
   providedIn: 'root'
@@ -21,14 +21,14 @@ export class AuthService {
   constructor(
     private router: Router,
     private toast: ToastService,
+    private dbService: DbService
   ) {
     this.logAuthEvents();
 
     getCurrentUser().then((cognitoUser) => {
       if(cognitoUser){
         console.log(cognitoUser);
-        dbClient.models.User.get({ uid: cognitoUser.userId }).then((user) => {
-          console.log('user', user);
+        this.dbService.dbClient.models.User.get({ uid: cognitoUser.userId }).then((user) => {
           this.currentUserSubject.next(user.data);
         });
       }
@@ -71,6 +71,7 @@ export class AuthService {
           username,
           email: username,
         };
+        this.dbService.dbClient.models.User.create({...user});
         this.currentUserSubject.next(user);
       }
 
@@ -94,7 +95,7 @@ export class AuthService {
 
       if (isSignedIn) {
         const cognitoUser = await getCurrentUser();
-        const userData: TInitialUser | null | Schema['User']['type'] = await dbClient.models.User.get({uid: cognitoUser.userId}).then((user) => {
+        const userData: TInitialUser | null | Schema['User']['type'] = await this.dbService.dbClient.models.User.get({uid: cognitoUser.userId}).then((user) => {
           return user.data;
         });
         this.currentUserSubject.next(userData);
