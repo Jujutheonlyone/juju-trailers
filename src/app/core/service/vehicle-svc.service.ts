@@ -1,18 +1,16 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Schema} from "../../../../amplify/data/resource";
-import { generateClient } from 'aws-amplify/data'
-import { V6Client } from '@aws-amplify/api-graphql';
+import {dbClient} from "../../../main";
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class VehicleSvc {
-  private client: V6Client<Schema> = generateClient<Schema>();
 
   public async addVehicles(): Promise<any> {
     try{
-      const res = await this.client.models.Vehicle.create(  {
+      const res = await dbClient.models.Vehicle.create(  {
         vehicleId: '2',
         plate: 'DEF456',
         name: 'CargoMate XL',
@@ -40,7 +38,7 @@ export class VehicleSvc {
 
   public async getVehicleList(): Promise<Schema['Vehicle']['type'][]> {
     try {
-      const res = await this.client.models.Vehicle.list();
+      const res = await dbClient.models.Vehicle.list();
       console.log(res);
       return res.data;
     } catch (e) {
@@ -51,7 +49,7 @@ export class VehicleSvc {
 
   public async getVehicleById(vehicleId: string): Promise<void> {
     try {
-      const res = await this.client.models.Vehicle.get({vehicleId});
+      const res = await dbClient.models.Vehicle.get({vehicleId});
       console.log(res)
     } catch (e) {
       console.error('Error on VehicleService.getVehicleById', e);
@@ -61,7 +59,7 @@ export class VehicleSvc {
 
   public async updateVehicle(vehicle: any): Promise<any> {
     try {
-      const res = await this.client.models.Vehicle.update(vehicle);
+      const res = await dbClient.models.Vehicle.update(vehicle);
       return res.data;
     } catch (e) {
       console.error('Error on VehicleService.updateVehicle', e);
@@ -71,7 +69,7 @@ export class VehicleSvc {
 
   public async deleteVehicle(vehicleId: string): Promise<any> {
     try{
-      const res = await this.client.models.Vehicle.delete({vehicleId});
+      const res = await dbClient.models.Vehicle.delete({vehicleId});
       return res.data;
     } catch (e) {
       console.error('Error on VehicleService.deleteVehicle', e);

@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {confirmSignUp, getCurrentUser, signIn, signOut, signUp, autoSignIn} from 'aws-amplify/auth'
-import {generateClient} from "aws-amplify/data";
-import {V6Client} from "@aws-amplify/api-graphql";
+import {confirmSignUp, getCurrentUser, signIn, signOut, signUp} from 'aws-amplify/auth'
 import {TInitialUser} from "../model/user.model";
 import {Router} from "@angular/router";
 import {ToastService} from "./toast.service";
@@ -11,6 +9,7 @@ import {ROUTES} from "../const/routes";
 import {Hub} from 'aws-amplify/utils';
 import {AuthNextSignInStep} from '@aws-amplify/auth/dist/esm/types/models';
 import {Schema} from "../../../../amplify/data/resource";
+import {dbClient} from "../../../main";
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +17,6 @@ import {Schema} from "../../../../amplify/data/resource";
 export class AuthService {
   private currentUserSubject: BehaviorSubject<null | TInitialUser | Schema['User']['type']>;
   public $currentUser: Observable<null | Schema['User']['type'] | TInitialUser>;
-  private client: V6Client<Schema> = generateClient<Schema>({
-    authMode: 'userPool',
-  });
 
   constructor(
     private router: Router,
@@ -31,7 +27,7 @@ export class AuthService {
     getCurrentUser().then((cognitoUser) => {
       if(cognitoUser){
         console.log(cognitoUser);
-        this.client.models.User.get({ uid: cognitoUser.userId }).then((user) => {
+        dbClient.models.User.get({ uid: cognitoUser.userId }).then((user) => {
           console.log('user', user);
           this.currentUserSubject.next(user.data);
         });
@@ -98,7 +94,7 @@ export class AuthService {
 
       if (isSignedIn) {
         const cognitoUser = await getCurrentUser();
-        const userData: TInitialUser | null | Schema['User']['type'] = await this.client.models.User.get({uid: cognitoUser.userId}).then((user) => {
+        const userData: TInitialUser | null | Schema['User']['type'] = await dbClient.models.User.get({uid: cognitoUser.userId}).then((user) => {
           return user.data;
         });
         this.currentUserSubject.next(userData);
