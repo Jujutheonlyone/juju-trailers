@@ -1,6 +1,6 @@
 export const TRAILER_LIST_MOCK = [
   {
-    bookings: [],
+    vehicleId: '1',
     plate: 'ABC123',
     name: 'Explorer Trailer',
     brand: 'AdventureCo',
@@ -16,6 +16,7 @@ export const TRAILER_LIST_MOCK = [
     updatedAt: new Date().toISOString(),
     vehicleType: 'trailer',
     media: [],
+    bookings: [],
     user: null,
     uid: 'user123',
   },

@@ -4,7 +4,7 @@ import {AuthService} from "../../core/service/auth.service";
 import {ToastService} from "../../core/service/toast.service";
 import {ERROR_MESSAGE} from "../../core/const/error-message";
 import {SUCCESS_MESSAGE} from "../../core/const/success-message";
-
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -21,7 +21,9 @@ export class LoginPage {
   constructor(
     public authService: AuthService,
     private toastService: ToastService,
-  ) {}
+    private router: Router,
+  ) {
+  }
 
   public async signIn() {
     const { email, password } = this.loginForm.value;

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {confirmSignUp, getCurrentUser, signIn, signOut, signUp} from 'aws-amplify/auth'
+import {confirmSignUp, getCurrentUser, signIn, signOut, signUp, autoSignIn} from 'aws-amplify/auth'
 import {generateClient} from "aws-amplify/data";
 import {V6Client} from "@aws-amplify/api-graphql";
 import {TInitialUser} from "../model/user.model";
@@ -25,11 +25,13 @@ export class AuthService {
     private toast: ToastService,
   ) {
     this.logAuthEvents();
+
     getCurrentUser().then((cognitoUser) => {
       if(cognitoUser){
+        console.log(cognitoUser);
         this.client.models.User.get({ uid: cognitoUser.userId }).then((user) => {
+          console.log('user', user);
           this.currentUserSubject.next(user.data);
-          this.router.navigate([''])
         });
       }
     })

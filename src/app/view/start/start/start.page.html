@@ -10,6 +10,16 @@
       <ion-title size="large">start</ion-title>
     </ion-toolbar>
   </ion-header>
-
+  <swiper-container
+    #swiper
+    (afterinit)="swiperReady()"
+    (slidechange)="swiperSlideChanged($event)"
+  >
+    <swiper-slide *ngFor="let vehicle of vehicleList">
+        <ion-card>
+          <ion-card-header>{{vehicle.title}}</ion-card-header>
+        </ion-card>
+    </swiper-slide>
+  </swiper-container>
   <ion-button (click)="vehicleSvc.addVehicles()">Add Vehicle</ion-button>
 </ion-content>

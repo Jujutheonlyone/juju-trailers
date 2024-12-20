@@ -28,7 +28,7 @@ const schema = a.schema({
     address: a.hasOne('Address', 'uid'),
   })
     .identifier(['uid'])
-    .authorization((allow) => [allow.guest()]),
+    .authorization((allow) => [allow.owner()]),
 
   Booking: a.model({
     bookingId: a.id(),

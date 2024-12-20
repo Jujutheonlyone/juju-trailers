@@ -7,26 +7,30 @@ import { V6Client } from '@aws-amplify/api-graphql';
 @Injectable({
   providedIn: 'root',
 })
-export class VehicleService {
+export class VehicleSvc {
   private client: V6Client<Schema> = generateClient<Schema>();
 
   public async addVehicles(): Promise<any> {
     try{
-      const res = await this.client.models.Vehicle.create({
-        vehicleId: '1',
-        status: 'available',
-        plate: 'ABC123',
-        name: 'Explorer Trailer',
-        brand: 'AdventureCo',
+      const res = await this.client.models.Vehicle.create(  {
+        vehicleId: '2',
+        plate: 'DEF456',
+        name: 'CargoMate XL',
+        brand: 'CargoMaster',
+        description: 'Heavy-duty trailer ideal for long hauls.',
+        active: true,
+        status: 'rented',
+        lockStatus: 'unlocked',
         location: {
-          lat: 37.7749,
-          long: -122.4194,
+          lat: 40.7128,
+          long: -74.0060,
         },
-        emptyWeight: 750,
-        grossWeight: 1500,
-        description: 'A reliable Trailer for ...',
-        active: false
+        emptyWeight: 1000,
+        grossWeight: 2000,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       });
+      console.log(res);
       return res.data;
     } catch (e) {
       console.error('Error on VehicleService.addVehicles', e);

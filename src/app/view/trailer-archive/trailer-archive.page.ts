@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {image} from "ionicons/icons";
-import {VehicleService} from "../../core/service/vehicle.service";
+import {VehicleSvc} from "../../core/service/vehicle-svc.service";
 import {SwiperOptions} from "swiper/types";
 
 export interface Card {
@@ -74,7 +74,7 @@ export class TrailerArchivePage implements OnInit {
     console.log('slide change');
   }
 
-  constructor(private readonly vehicleService: VehicleService) {}
+  constructor(private readonly vehicleService: VehicleSvc) {}
 
   public ngOnInit(): void {
     this.loadVehicles();

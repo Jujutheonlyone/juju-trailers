@@ -15,6 +15,5 @@ import {AppComponent} from './app.component';
   ],
   providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}],
   bootstrap: [AppComponent],
-  schemas: [],
 })
 export class AppModule {}

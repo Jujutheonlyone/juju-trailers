@@ -1,5 +1,6 @@
 export const ROUTES = {
   de: {
-    start: ['']
+    start: [''],
+    login: ['login']
   }
 }
