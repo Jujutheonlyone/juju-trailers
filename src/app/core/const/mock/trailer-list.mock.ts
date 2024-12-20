@@ -1,14 +1,11 @@
-export const mockTrailers = [
+export const TRAILER_LIST_MOCK = [
   {
-    vehicleId: '1',
     bookings: [],
     plate: 'ABC123',
     name: 'Explorer Trailer',
     brand: 'AdventureCo',
     description: 'Perfect for off-road adventures with ample storage.',
     active: true,
-    status: 'available',
-    lockStatus: 'locked',
     location: {
       lat: 37.7749,
       long: -122.4194,
@@ -115,5 +112,3 @@ export const mockTrailers = [
     uid: 'user345',
   },
 ];
-
-console.log(mockTrailers);
