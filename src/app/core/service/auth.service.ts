@@ -18,7 +18,9 @@ import {Schema} from "../../../../amplify/data/resource";
 export class AuthService {
   private currentUserSubject: BehaviorSubject<null | TInitialUser | Schema['User']['type']>;
   public $currentUser: Observable<null | Schema['User']['type'] | TInitialUser>;
-  private client: V6Client<Schema> = generateClient<Schema>();
+  private client: V6Client<Schema> = generateClient<Schema>({
+    authMode: 'userPool',
+  });
 
   constructor(
     private router: Router,

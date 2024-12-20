@@ -67,7 +67,7 @@ const schema = a.schema({
     uid: a.id(),
   })
     .identifier(['vehicleId'])
-    .authorization((allow) => [allow.guest()]),
+    .authorization((allow) => [allow.owner()]),
 
   VehicleMedia: a.model({
     mediaId: a.id(),
