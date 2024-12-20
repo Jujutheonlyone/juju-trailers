@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {image} from "ionicons/icons";
-import {VehicleService} from "../../service/vehicle.service";
+import {VehicleService} from "../../core/service/vehicle.service";
 import {SwiperOptions} from "swiper/types";
 
 export interface Card {

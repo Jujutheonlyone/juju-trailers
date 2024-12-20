@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AuthService} from "../../service/auth.service";
-import {ToastService} from "../../service/toast.service";
-import {ERROR_MESSAGE} from "../../const/error-messages";
-import {SUCCESS_MESSAGE} from "../../const/success-messages";
+import {AuthService} from "../../core/service/auth.service";
+import {ToastService} from "../../core/service/toast.service";
+import {ERROR_MESSAGE} from "../../core/const/error-message";
+import {SUCCESS_MESSAGE} from "../../core/const/success-message";
+
 
 
 @Component({

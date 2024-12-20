@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TrailerArchivePageRoutingModule } from './trailer-archive-routing.module';
 import { TrailerArchivePage } from './trailer-archive.page';
-import {SwiperModule} from "../../directive/swiper/swiper.module";
+import {SwiperModule} from "../../core/directive/swiper/swiper.module";
 
 
 @NgModule({

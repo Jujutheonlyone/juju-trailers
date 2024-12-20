@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Schema} from "../../../amplify/data/resource";
+import {Schema} from "../../../../amplify/data/resource";
 import { generateClient } from 'aws-amplify/data'
 import { V6Client } from '@aws-amplify/api-graphql';
 
