@@ -41,6 +41,7 @@ export class VehicleSvc {
   public async getVehicleList(): Promise<Schema['Vehicle']['type'][]> {
     try {
       const res = await this.client.models.Vehicle.list();
+      console.log(res);
       return res.data;
     } catch (e) {
       console.error('Error on VehicleService.getVehicleList', e);

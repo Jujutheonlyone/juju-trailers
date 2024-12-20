@@ -37,6 +37,7 @@ export class StartPage {
     public router: Router,
   ) {
     this.vehicleSvc.getVehicleList().then((vehicleList) => {
+      console.log(vehicleList);
       this.vehicleList = vehicleList;
     })
     this.authSvc.$currentUser.subscribe((user) => {
